@@ -1,13 +1,26 @@
-window.addEventListener("load",()=>{
+window.addEventListener("load", () => {
 
-  setTimeout(()=>{
+  const boot = document.getElementById("boot");
+  const app = document.getElementById("app");
 
-    document.getElementById("startup").style.display="none";
-    document.getElementById("app").classList.remove("hidden");
+  if(!boot || !app) return;
 
-    Carousel.render();
-    UI.update();
+  // total boot duration (PS-style feel)
+  setTimeout(() => {
 
-  },2000);
+    // fade boot out (cinematic)
+    boot.classList.add("fade-out");
+
+    setTimeout(() => {
+      boot.style.display = "none";
+
+      app.classList.remove("hidden");
+
+      // optional: start UI
+      if(window.Screen?.go) Screen.go("home");
+
+    }, 800);
+
+  }, 3000);
 
 });

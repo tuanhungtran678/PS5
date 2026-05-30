@@ -1,23 +1,19 @@
-const Carousel = {
+window.Carousel = {
+  render() {
 
-  el: document.getElementById("carousel"),
+    const el = document.getElementById("carousel");
+    el.innerHTML = "";
 
-  render(){
+    Games.forEach((g, i) => {
 
-    this.el.innerHTML = "";
+      const card = document.createElement("div");
 
-    Games.forEach((g,i)=>{
+      card.className = "card" + (i === Core.index ? " active" : "");
 
-      const div = document.createElement("div");
-      div.className = "card";
+      card.innerHTML = `<h3>${g.title}</h3>`;
 
-      if(i === Core.index) div.classList.add("active");
-
-      div.innerHTML = `<h3>${g.title}</h3>`;
-
-      this.el.appendChild(div);
+      el.appendChild(card);
     });
 
   }
-
 };

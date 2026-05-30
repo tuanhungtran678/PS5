@@ -1,24 +1,24 @@
-const UI = {
-
-  title: document.getElementById("title"),
-  meta: document.getElementById("meta"),
-  detail: document.getElementById("detail"),
+window.UI = {
 
   update(){
-
-    const g = Games[Core.index];
-
-    this.title.textContent = g.title;
-    this.meta.textContent = g.meta;
-
+    // background reaction handled in input.js
   },
 
-  openDetail(){
-    this.detail.classList.remove("hidden");
+  openDetail(i){
+    const el = document.getElementById("detail");
+
+    el.innerHTML = `
+      <div class="detail">
+        <h2>${Games[i].title}</h2>
+        <p>${Games[i].desc || "No description"}</p>
+        <button onclick="Core.close()">Back</button>
+      </div>
+    `;
   },
 
   closeDetail(){
-    this.detail.classList.add("hidden");
+    const el = document.getElementById("detail");
+    el.innerHTML = "";
   }
 
 };

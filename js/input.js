@@ -1,4 +1,11 @@
-window.addEventListener("keydown",(e)=>{
+window.addEventListener("keydown", (e) => {
+
+  if(State.mode === "detail"){
+    if(e.key === "Escape"){
+      Core.close();
+    }
+    return;
+  }
 
   switch(e.key){
 
@@ -11,13 +18,16 @@ window.addEventListener("keydown",(e)=>{
       break;
 
     case "Enter":
-      UI.openDetail();
+      Core.open();
       break;
 
     case "Escape":
-      UI.closeDetail();
+      toggleControlCenter();
       break;
 
+    case " ":
+      toggleControlCenter();
+      break;
   }
 
 });

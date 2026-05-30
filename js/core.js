@@ -1,7 +1,15 @@
-const Core = {
+window.State = {
+  mode: "home", // home | detail | control | loading
+};
 
-  index: Storage.get(),
+window.Core = {
+
+  index: 0,
   locked: false,
+
+  init(){
+    this.index = Storage.get();
+  },
 
   setIndex(i){
     this.index = i;
@@ -9,8 +17,8 @@ const Core = {
   },
 
   next(dir){
-    if(this.locked) return;
 
+    if(this.locked) return;
     this.locked = true;
 
     this.index += dir;
@@ -18,10 +26,12 @@ const Core = {
     if(this.index < 0) this.index = Games.length - 1;
     if(this.index >= Games.length) this.index = 0;
 
-    Carousel.render();
-    UI.update();
+    this.setIndex(this.index);
 
-    setTimeout(()=> this.locked=false, 200);
+    Carousel.render();
+    UI.update?.();
+
+    setTimeout(()=> this.locked = false, 180);
   }
 
 };
