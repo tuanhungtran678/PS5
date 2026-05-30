@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PS5 Emulator</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Arial,sans-serif;
+}
+
+body{
+    overflow:hidden;
+    height:100vh;
+    color:white;
+    background:
+        radial-gradient(circle at top left,#0d47a1,#020617 60%);
+}
+
+.background{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:-1;
+}
+
+.wave{
+    position:absolute;
+    width:1200px;
+    height:1200px;
+    border:2px solid rgba(255,255,255,.08);
+    border-radius:50%;
+    animation:spin 25s linear infinite;
+}
+
+.wave:nth-child(1){
+    top:-600px;
+    left:-300px;
+}
+
+.wave:nth-child(2){
+    bottom:-700px;
+    right:-200px;
+    animation-duration:35s;
+}
+
+@keyframes spin{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+.topbar{
+    height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    backdrop-filter:blur(10px);
+}
+
+.logo{
+    font-size:30px;
+    font-weight:bold;
+    letter-spacing:2px;
+}
+
+.time{
+    font-size:20px;
+}
+
+.hero{
+    padding:40px;
+}
+
+.hero h1{
+    font-size:64px;
+    margin-bottom:10px;
+}
+
+.hero p{
+    color:#d1d5db;
+    font-size:20px;
+}
+
+.games{
+    display:flex;
+    gap:25px;
+    padding:30px 40px;
+}
+
+.card{
+    width:280px;
+    height:170px;
+    border-radius:20px;
+    overflow:hidden;
+    position:relative;
+    cursor:pointer;
+    transition:.25s;
+    border:2px solid transparent;
+}
+
+.card:hover{
+    transform:scale(1.08);
+    border-color:white;
+}
+
+.card.active{
+    transform:scale(1.12);
+    border-color:#60a5fa;
+    box-shadow:0 0 25px rgba(96,165,250,.8);
+}
+
+.cover{
+    width:100%;
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:28px;
+    font-weight:bold;
+}
+
+.spiderman{
+    background:linear-gradient(135deg,#b91c1c,#7f1d1d);
+}
+
+.gow{
+    background:linear-gradient(135deg,#374151,#111827);
+}
+
+.horizon{
+    background:linear-gradient(135deg,#065f46,#022c22);
+}
+
+.ratchet{
+    background:linear-gradient(135deg,#7c3aed,#4c1d95);
+}
+
+.info{
+    position:absolute;
+    bottom:0;
+    width:100%;
+    padding:15px;
+    background:rgba(0,0,0,.55);
+}
+
+.launch{
+    position:fixed;
+    bottom:40px;
+    right:40px;
+    padding:18px 35px;
+    border:none;
+    border-radius:15px;
+    font-size:18px;
+    cursor:pointer;
+    background:#2563eb;
+    color:white;
+}
+
+.launch:hover{
+    background:#3b82f6;
+}
+
+.overlay{
+    position:fixed;
+    inset:0;
+    background:black;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+}
+
+.loader{
+    width:400px;
+    height:18px;
+    background:#222;
+    border-radius:50px;
+    overflow:hidden;
+    margin-top:20px;
+}
+
+.progress{
+    width:0%;
+    height:100%;
+    background:#3b82f6;
+}
+
+.status{
+    margin-top:20px;
+    font-size:22px;
+}
+</style>
+</head>
+<body>
+
+<div class="background">
+    <div class="wave"></div>
+    <div class="wave"></div>
+</div>
+
+<div class="topbar">
+    <div class="logo">PS5 EMULATOR</div>
+    <div class="time" id="clock"></div>
+</div>
+
+<div class="hero">
+    <h1 id="title">Spider-Man 2</h1>
+    <p id="desc">
+        Swing through New York and fight iconic villains.
+    </p>
+</div>
+
+<div class="games">
+
+    <div class="card active"
+         data-title="Spider-Man 2"
+         data-desc="Swing through New York and fight iconic villains.">
+        <div class="cover spiderman">Spider-Man 2</div>
+        <div class="info">Action</div>
+    </div>
+
+    <div class="card"
+         data-title="God of War Ragnarok"
+         data-desc="Join Kratos and Atreus in an epic adventure.">
+        <div class="cover gow">God of War</div>
+        <div class="info">Adventure</div>
+    </div>
+
+    <div class="card"
+         data-title="Horizon Forbidden West"
+         data-desc="Explore a dangerous futuristic world.">
+        <div class="cover horizon">Horizon</div>
+        <div class="info">Open World</div>
+    </div>
+
+    <div class="card"
+         data-title="Ratchet & Clank"
+         data-desc="Travel through dimensions and save the universe.">
+        <div class="cover ratchet">Ratchet</div>
+        <div class="info">Platformer</div>
+    </div>
+
+</div>
+
+<button class="launch" id="launchBtn">
+    Start Game
+</button>
+
+<div class="overlay" id="overlay">
+    <h1>Launching...</h1>
+
+    <div class="loader">
+        <div class="progress" id="progress"></div>
+    </div>
+
+    <div class="status" id="status">
+        Initializing...
+    </div>
+</div>
+
+<script>
+const cards = document.querySelectorAll(".card");
+const title = document.getElementById("title");
+const desc = document.getElementById("desc");
+
+cards.forEach(card=>{
+    card.addEventListener("click",()=>{
+
+        document.querySelector(".active")
+            .classList.remove("active");
+
+        card.classList.add("active");
+
+        title.textContent = card.dataset.title;
+        desc.textContent = card.dataset.desc;
+    });
+});
+
+function updateClock(){
+    const now = new Date();
+
+    document.getElementById("clock")
+        .textContent =
+        now.toLocaleTimeString("vi-VN",{
+            hour:"2-digit",
+            minute:"2-digit"
+        });
+}
+
+setInterval(updateClock,1000);
+updateClock();
+
+const overlay = document.getElementById("overlay");
+const progress = document.getElementById("progress");
+const statusText = document.getElementById("status");
+
+document.getElementById("launchBtn")
+.addEventListener("click",()=>{
+
+    overlay.style.display="flex";
+
+    const steps = [
+        "Initializing PS5 Kernel...",
+        "Loading GPU...",
+        "Compiling Shaders...",
+        "Mounting Game Files...",
+        "Starting Game..."
+    ];
+
+    let p = 0;
+
+    const timer = setInterval(()=>{
+
+        p += 5;
+
+        progress.style.width = p + "%";
+
+        statusText.textContent =
+            steps[Math.min(
+                Math.floor(p/20),
+                steps.length-1
+            )];
+
+        if(p >= 100){
+            clearInterval(timer);
+
+            statusText.textContent =
+                "Game Started!";
+
+            setTimeout(()=>{
+                alert(
+                    "Đây chỉ là mô phỏng giao diện PS5 😄"
+                );
+
+                overlay.style.display="none";
+                progress.style.width="0%";
+            },1000);
+        }
+
+    },100);
+});
+</script>
+
+</body>
+</html>
