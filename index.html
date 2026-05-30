@@ -1,72 +1,51 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>PS5 Emulator - Stage 2</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PS5 UI Engine</title>
 
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- STARTUP SCREEN -->
 <div id="startup">
-    <div class="sony">SONY</div>
-    <div class="ps">PlayStation®5</div>
+  <div class="sony">SONY</div>
+  <div class="ps">PlayStation®5</div>
 </div>
 
-<!-- MAIN APP -->
 <div id="app" class="hidden">
 
-    <!-- TOP BAR -->
-    <div class="topbar">
+  <div class="topbar">
+    <div class="logo">PS5 ENGINE</div>
+    <div class="profile">Player1</div>
+  </div>
 
-        <div class="nav" id="nav">
-            <div class="nav-item active">Games</div>
-            <div class="nav-item">Store</div>
-            <div class="nav-item">Media</div>
-            <div class="nav-item">Settings</div>
-        </div>
+  <div id="carousel" class="carousel"></div>
 
-        <div class="profile">
-            <div class="name">👤 Player1</div>
-            <div class="stats">🏆 Lv 15 | 🎮 128 Games</div>
-        </div>
+  <div id="detail" class="detail hidden">
+    <h1 id="title"></h1>
+    <p id="meta"></p>
+    <button id="playBtn">PLAY</button>
+  </div>
 
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div class="content">
-
-        <!-- GAME LIBRARY -->
-        <div id="library" class="library"></div>
-
-        <!-- GAME DETAIL -->
-        <div id="detail" class="detail hidden">
-            <h1 id="gameTitle">Game</h1>
-            <p id="gameGenre"></p>
-            <p id="gameSize"></p>
-
-            <button id="playBtn">▶ PLAY</button>
-        </div>
-
-    </div>
-
-    <!-- NOTIFICATION -->
-    <div id="notifications" class="notifications hidden"></div>
-
-</div>
-
-<!-- FAKE LOADING OVERLAY -->
-<div id="loading" class="loading hidden">
-    <div class="loader"></div>
+  <div id="overlay" class="overlay hidden">
+    <div class="loading"></div>
     <div id="loadingText">Loading...</div>
+  </div>
+
 </div>
 
 <script src="js/library.js"></script>
 <script src="js/storage.js"></script>
-<script src="js/app.js"></script>
+
+<script src="js/core.js"></script>
+<script src="js/carousel.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/input.js"></script>
+<script src="js/overlay.js"></script>
+<script src="js/audio.js"></script>
 
 </body>
 </html>
