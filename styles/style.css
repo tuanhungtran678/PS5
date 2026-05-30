@@ -1,0 +1,246 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI, Arial, sans-serif;
+}
+
+body{
+    background:#050816;
+    color:white;
+    overflow:hidden;
+}
+
+/* ================= STARTUP ================= */
+
+#startup{
+    position:fixed;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    background:black;
+    z-index:999;
+}
+
+#startup .sony{
+    font-size:60px;
+    letter-spacing:10px;
+    opacity:0;
+    animation:fadeIn 2s forwards;
+}
+
+#startup .ps{
+    font-size:30px;
+    margin-top:10px;
+    opacity:0;
+    animation:fadeIn 2s 1s forwards;
+    color:#cbd5e1;
+}
+
+@keyframes fadeIn{
+    to{opacity:1;}
+}
+
+/* ================= APP ================= */
+
+.hidden{
+    display:none !important;
+}
+
+#app{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+}
+
+/* ================= TOPBAR ================= */
+
+.topbar{
+    height:80px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 40px;
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+.nav{
+    display:flex;
+    gap:30px;
+}
+
+.nav-item{
+    font-size:18px;
+    opacity:0.6;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.nav-item:hover{
+    opacity:1;
+}
+
+.nav-item.active{
+    opacity:1;
+    border-bottom:2px solid #60a5fa;
+    padding-bottom:5px;
+}
+
+.profile{
+    text-align:right;
+}
+
+.profile .name{
+    font-weight:bold;
+}
+
+.profile .stats{
+    font-size:12px;
+    opacity:0.7;
+}
+
+/* ================= CONTENT ================= */
+
+.content{
+    flex:1;
+    display:flex;
+    padding:40px;
+    gap:40px;
+}
+
+/* ================= LIBRARY ================= */
+
+.library{
+    display:flex;
+    gap:25px;
+    flex-wrap:wrap;
+    width:70%;
+}
+
+.card{
+    width:260px;
+    height:150px;
+    border-radius:18px;
+    background:#1e293b;
+    padding:15px;
+    cursor:pointer;
+    transition:0.2s;
+    border:2px solid transparent;
+    position:relative;
+}
+
+.card:hover{
+    transform:scale(1.05);
+}
+
+.card.active{
+    border-color:#60a5fa;
+    box-shadow:0 0 20px rgba(96,165,250,0.5);
+}
+
+.card .title{
+    font-size:18px;
+    font-weight:bold;
+}
+
+.card .meta{
+    position:absolute;
+    bottom:15px;
+    font-size:12px;
+    opacity:0.7;
+}
+
+/* ================= DETAIL ================= */
+
+.detail{
+    width:30%;
+    background:#0f172a;
+    border-radius:20px;
+    padding:25px;
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.detail h1{
+    font-size:28px;
+}
+
+#playBtn{
+    margin-top:auto;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    background:#2563eb;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+#playBtn:hover{
+    background:#3b82f6;
+}
+
+/* ================= LOADING ================= */
+
+.loading{
+    position:fixed;
+    inset:0;
+    background:black;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:20px;
+    z-index:1000;
+}
+
+.loader{
+    width:300px;
+    height:10px;
+    background:#222;
+    border-radius:50px;
+    overflow:hidden;
+}
+
+.loader::after{
+    content:"";
+    display:block;
+    width:0%;
+    height:100%;
+    background:#3b82f6;
+    animation:load 3s linear forwards;
+}
+
+@keyframes load{
+    to{width:100%;}
+}
+
+/* ================= NOTIFICATIONS ================= */
+
+.notifications{
+    position:fixed;
+    top:100px;
+    right:20px;
+    width:250px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.notification{
+    background:#111827;
+    padding:12px;
+    border-radius:10px;
+    font-size:13px;
+    border-left:3px solid #60a5fa;
+    animation:slideIn 0.3s ease;
+}
+
+@keyframes slideIn{
+    from{transform:translateX(100%); opacity:0;}
+    to{transform:translateX(0); opacity:1;}
+}
