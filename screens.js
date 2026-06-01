@@ -23,3 +23,17 @@ function LoginUI(){
     </div>
   `;
 }
+
+function PlusUI(){
+  return `
+    <h1>PlayStation Plus</h1>
+    <p>Get access to online multiplayer, free games, and`
+}
+
+window.HomeUI = function(){
+
+  return `
+    <h1>Home</h1>
+  `;
+
+}
